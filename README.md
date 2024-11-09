@@ -11,7 +11,9 @@
 ![GitHub stars](https://img.shields.io/github/stars/yushiran/whatsapp_automatic_sender?style=social)
 <!-- ![GitHub forks](https://img.shields.io/github/forks/yushiran/whatsapp_automatic_sender?style=social) -->
 
-![alt text](img/result.png)
+<img src="img/result.png" alt="Example" width="300"/>
+
+*Example of result*
 
 ## Features
 
@@ -45,5 +47,3 @@
     ./run.sh
     ```
 5. Finally Work!!!
-    ![Result image](img/result.png)
-    *final result*
