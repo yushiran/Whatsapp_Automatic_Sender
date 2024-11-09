@@ -14,14 +14,14 @@ from use_api.gpt_api import generate_gpt_summary
 
 # Twilio 帐户 SID 和身份验证令牌
 with open('pwd.key', 'r') as file:
-    lines = file.readlines()
-    account_sid = lines[0].strip()
-    auth_token = lines[1].strip()
-    to_whatsapp_number_secure = lines[2].strip()
-    weatherapi_key = lines[3].strip()
-    exchange_rate_key = lines[4].strip()
-    news_api_key = lines[5].strip()
-    gpt_api_key = lines[6].strip()
+    lines = file.readlines()  # Read all lines from the file
+    account_sid = lines[0].strip()  # Line 1: Twilio Account SID https://console.twilio.com/
+    auth_token = lines[1].strip()  # Line 2: Twilio Authentication Token
+    to_whatsapp_number_secure = lines[2].strip()  # Line 3: Secure WhatsApp recipient number
+    weatherapi_key = lines[3].strip()  # Line 4: Weather API key https://www.weatherapi.com/my/
+    exchange_rate_key = lines[4].strip()  # Line 5: Exchange rate API key https://app.exchangerate-api.com/dashboard/confirmed
+    news_api_key = lines[5].strip()  # Line 6: News API key https://newsapi.org/account
+    gpt_api_key = lines[6].strip()  # Line 7: GPT API key https://platform.openai.com/api-keys
 
 client = Client(account_sid, auth_token)
 from_whatsapp_number = 'whatsapp:+14155238886'  # Twilio 提供的 WhatsApp 沙盒号码
