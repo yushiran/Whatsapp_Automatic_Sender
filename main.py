@@ -77,7 +77,7 @@ def main():
         schedule.run_pending()
         # send_daily_message()
         # 获取今天的日期
-        today = datetime.today().date()
+        today = datetime.now()
         print(f'Jingjing Whatsapp Structure is working!Today is {today}\n')
         time.sleep(1)
 
