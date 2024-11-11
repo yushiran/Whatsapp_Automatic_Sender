@@ -35,3 +35,5 @@ git+https://github.com/weatherapicom/python.git#egg=weatherapipython
 
 openai
 schedule
+flask
+apscheduler

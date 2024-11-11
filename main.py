@@ -1,8 +1,10 @@
 from __future__ import print_function
-from twilio.rest import Client
+from flask import Flask, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 import schedule
 import time
+import os
 import weatherapi
 from weatherapi.rest import ApiException
 from pprint import pprint
@@ -23,63 +25,55 @@ with open('pwd.key', 'r') as file:
     news_api_key = lines[5].strip()  # Line 6: News API key https://newsapi.org/account
     gpt_api_key = lines[6].strip()  # Line 7: GPT API key https://platform.openai.com/api-keys
 
-client = Client(account_sid, auth_token)
-from_whatsapp_number = 'whatsapp:+14155238886'  # Twilio 提供的 WhatsApp 沙盒号码
-to_whatsapp_number = 'whatsapp:' + to_whatsapp_number_secure   # 收件人的 WhatsApp 号码
+app = Flask(__name__)
+# 本地文件路径，用于存储最新的消息
+MESSAGE_FILE = "latest_message.txt"
 
-def send_daily_message():
-    # 获取天气数据
+# client = Client(account_sid, auth_token)
+# from_whatsapp_number = 'whatsapp:+14155238886'  # Twilio 提供的 WhatsApp 沙盒号码
+# to_whatsapp_number = 'whatsapp:' + to_whatsapp_number_secure   # 收件人的 WhatsApp 号码
+
+# 定义消息更新函数
+def update_daily_message():
+    # 获取天气、汇率和新闻数据
     weather_response = get_weather_advice('Manchester', weatherapi_key)
-
-    # 获取汇率数据
     exchange_rate_response = get_exchange_rate(exchange_rate_key)
-
-    # 获取新闻数据
     news_message = get_top_headlines(news_api_key)
-
-    # 构造消息
-    message = f"☀️早上好京京!\n{weather_response}\n{exchange_rate_response}\n今天吃早饭的时候可以看看这些新闻哦：\n"
-
-    # 用 OpenAI 来总结一下
     news_message_str = " ".join(news_message)
     finish_message = generate_gpt_summary(weather_response, news_message_str, gpt_api_key)
+    # 构造完整消息内容，遍历news_message数组并加入到字符串中
+    message = f"☀️早上好京京!今天是英国时间{datetime.now()}\n{weather_response}\n{exchange_rate_response}\n今天吃早饭的时候可以看看这些新闻哦：\n"
+    for news in news_message:
+        message += f"- {news}\n"
+    message += finish_message  # 添加总结内容
+    # 将消息保存到本地文件
+    with open(MESSAGE_FILE, "w", encoding="utf-8") as file:
+        file.write(message)
+    print(f"Message updated and saved at {datetime.now()}")
 
-    # 发送消息
-    try:
-        client.messages.create(
-            body=message,
-            from_=from_whatsapp_number,
-            to=to_whatsapp_number
-        )
-        time.sleep(1)
-        for i in news_message:
-            client.messages.create(
-                body=i,
-                from_=from_whatsapp_number,
-                to=to_whatsapp_number
-            )
-            time.sleep(1)
-        client.messages.create(
-            body=finish_message,
-            from_=from_whatsapp_number,
-            to=to_whatsapp_number
-        )
-        time.sleep(1)
-        print("Message sent successfully!")
-    except Exception as e:
-        print(f"Error sending message: {e}")
+# 检查文件是否存在，如果不存在则立即更新
+if not os.path.exists(MESSAGE_FILE):
+    print("Message file not found. Updating message for the first time.")
+    update_daily_message()
 
-# 设置定时任务，每天早上6点半执行
-schedule.every().day.at("06:30").do(send_daily_message)
+# API端点：读取并返回最新的消息
+@app.route('/get_text', methods=['GET'])
+def get_text():
+    if os.path.exists(MESSAGE_FILE):
+        with open(MESSAGE_FILE, "r", encoding="utf-8") as file:
+            message = file.read()
+    else:
+        message = "暂无消息，请稍后再试。"
+    return jsonify({"message": message})
 
-def main():
-    while True:
-        schedule.run_pending()
-        # send_daily_message()
-        # 获取今天的日期
-        today = datetime.now()
-        print(f'Jingjing Whatsapp Structure is working!Today is {today}\n')
-        time.sleep(1)
+# 使用APScheduler，每天早上7:30更新一次消息
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=update_daily_message, trigger="cron", hour=6, minute=30)
+scheduler.start()
 
+# 主程序
 if __name__ == '__main__':
-    main()
+    try:
+        app.run(host='0.0.0.0', port=5000)
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
