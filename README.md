@@ -52,4 +52,5 @@
     ```
 5. Use this link to add the automation to your iphone
     https://www.icloud.com/shortcuts/6fe02f0c72cd4c11a2f65a1f522d38ec
+   
     <img src="img/shortcut.jpg" alt="shortcut" width="200"/>
