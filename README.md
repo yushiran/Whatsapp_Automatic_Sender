@@ -1,26 +1,30 @@
-# whatsapp_automatic_sender
+# message_automatic_sender
 
-🤖 **WhatsApp Automatic Sender**: A Python script that sends automatic WhatsApp messages to a specified number daily 📱. The message content is customized using the GPT API 🤯, with additional dynamic information like weather 🌤️, news 📰, or exchange rates 💱.
+🤖 **Message Automatic Sender**: A Flask-based backend application that handles POST requests to send messages via **iPhone Shortcuts** 📱. The message content is dynamically generated using the GPT API 🤯, incorporating personalized elements like weather 🌤️, news 📰, or exchange rates 💱.
+
+---
 
 ## Badges
 
-![GitHub contributors](https://img.shields.io/github/contributors/yushiran/whatsapp_automatic_sender)
-![GitHub license](https://img.shields.io/github/license/yushiran/whatsapp_automatic_sender)
-![GitHub issues](https://img.shields.io/github/issues/yushiran/whatsapp_automatic_sender)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yushiran/whatsapp_automatic_sender)
-![GitHub stars](https://img.shields.io/github/stars/yushiran/whatsapp_automatic_sender?style=social)
-<!-- ![GitHub forks](https://img.shields.io/github/forks/yushiran/whatsapp_automatic_sender?style=social) -->
+![GitHub contributors](https://img.shields.io/github/contributors/yushiran/message_automatic_sender)
+![GitHub license](https://img.shields.io/github/license/yushiran/message_automatic_sender)
+![GitHub issues](https://img.shields.io/github/issues/yushiran/message_automatic_sender)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/yushiran/message_automatic_sender)
+![GitHub stars](https://img.shields.io/github/stars/yushiran/message_automatic_sender?style=social)
 
-<img src="img/result.png" alt="Example" width="300"/>
+---
 
-*Example of result*
+![result](img/result.jpg){: width="100px" }
+
 
 ## Features
 
-- **Daily Automatic Messaging**: Sends messages daily to a target WhatsApp number.
-- **GPT-powered Customization**: Injects dynamic, personalized content into messages.
-- **Easy Configuration**: Set up your API keys in a simple configuration file (`pwd.key`).
-- **Secure**: Sensitive data is kept secure and can be excluded from version control.
+- **Flask Backend**: A lightweight backend built with Flask to handle POST requests for message content.
+- **Dynamic Message Content**: Messages are generated dynamically using GPT API, enriched with contextual information (e.g., weather, news, exchange rates).
+- **iPhone Shortcuts Integration**: Uses iPhone’s **Shortcuts app** to send messages, ensuring seamless communication.
+- **Customizable**: API keys and other settings are easily managed via configuration files.
+
+---
 
 ## Installation
 
@@ -46,4 +50,7 @@
     ```
     ./run.sh
     ```
-5. Finally Work!!!
+5. Use this link to add the automation to your iphone
+    https://www.icloud.com/shortcuts/6fe02f0c72cd4c11a2f65a1f522d38ec
+
+    ![the ios automation](img/shortcut.jpg)
