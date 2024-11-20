@@ -14,7 +14,7 @@
 
 ---
 
-![result](img/result.jpg){: width="100px" }
+<img src="img/result.jpg" alt="result" width="200"/>
 
 
 ## Features
@@ -52,5 +52,4 @@
     ```
 5. Use this link to add the automation to your iphone
     https://www.icloud.com/shortcuts/6fe02f0c72cd4c11a2f65a1f522d38ec
-
-    ![the ios automation](img/shortcut.jpg)
+    <img src="img/shortcut.jpg" alt="shortcut" width="200"/>
